@@ -1,35 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMI BIOS Boot Emulator</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Using a monospaced font for that BIOS look -->
-    <link href="https://googleapis.com" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIOS Boot Screen</title>
+  <link rel="stylesheet" href="bios.css" />
 </head>
 <body>
-    <div id="bios-screen" class="bios-container">
-        <div class="logo-section">
-            <div class="ami-logo">
-                <span class="triangle">▲</span>
-                <span class="logo-text">American<br>Megatrends</span>
-            </div>
-            <div class="copyright">
-                AMIBIOS (C) 2012 American Megatrends, Inc.
-            </div>
-        </div>
 
-        <div id="boot-text" class="boot-log">
-            <!-- Content populated by TypeScript/JS -->
-        </div>
+  <!-- PHASE 1: Black screen flash -->
+  <div id="phase-black" class="phase active"></div>
 
-        <div class="footer">
-            Press <b>DEL</b> to run Setup, <b>F12</b> for BBS POPUP <br>
-            Press <b>F1</b> to Run SETUP
-        </div>
+  <!-- PHASE 2: POST / Memory Count Screen -->
+  <div id="phase-post" class="phase">
+    <div class="bios-screen">
+      <!-- Top bar -->
+      <div class="top-bar">
+        <span class="top-bar-left">AMIBIOS(C)2011 American Megatrends, Inc.</span>
+        <span class="top-bar-right">BIOS Date: 04/25/11 09:12:53  Ver: 08.00.15</span>
+      </div>
+
+      <!-- CPU Info -->
+      <div class="cpu-line" id="cpu-line"></div>
+
+      <!-- Memory test block -->
+      <div class="mem-block">
+        <div id="mem-test-line" class="mem-test-line"></div>
+        <div id="mem-ok-line" class="mem-ok-line" style="display:none;">Memory OK</div>
+      </div>
+
+      <!-- POST lines -->
+      <div id="post-lines" class="post-lines"></div>
+
+      <!-- Bottom status bar -->
+      <div class="bottom-bar">
+        <span id="bottom-left">Auto-Detecting USB Mass Storage Devices..</span>
+        <span id="bottom-right">Press DEL to run Setup / F11 for BBS Popup</span>
+      </div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- PHASE 3: AMI Logo / Summary Screen -->
+  <div id="phase-summary" class="phase">
+    <div class="bios-screen">
+      <!-- Top bar -->
+      <div class="top-bar">
+        <span class="top-bar-left">AMIBIOS(C)2011 American Megatrends, Inc.</span>
+        <span class="top-bar-right">BIOS Date: 04/25/11 09:12:53  Ver: 08.00.15</span>
+      </div>
+
+      <div class="summary-body">
+        <div class="ami-logo">
+          <div class="ami-logo-art">
+<pre>
+    ___    __  ___ ____
+   /   |  /  |/  //  _/
+  / /| | / /|_/ / / /  
+ / ___ |/ /  / /_/ /   
+/_/  |_/_/  /_//___/   
+</pre>
+        </div>
+          <div class="ami-logo-tagline">American Megatrends Inc.,</div>
+        </div>
+
+        <div class="summary-table">
+          <div class="summary-row">
+            <span class="s-label">CPU Type</span>
+            <span class="s-colon">:</span>
+            <span class="s-value" id="sum-cpu">Intel(R) Core(TM) i5-2400 CPU @ 3.10GHz</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">CPU Speed</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">3100MHz</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Floppy Drive A</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">Not Detected</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Pri. Master Disk</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">LBA, ATA 133, 500.1 GB</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Pri. Slave Disk</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">Not Detected</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Sec. Master Disk</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">Not Detected</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Sec. Slave Disk</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">Not Detected</span>
+          </div>
+          <div class="summary-row spacer"></div>
+          <div class="summary-row">
+            <span class="s-label">Total Memory</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">4096 MB</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Memory Frequency</span>
+            <span class="s-colon">:</span>
+            <span class="s-value">1333 MHz</span>
+          </div>
+        </div>
+
+        <div class="boot-order-block">
+          <div class="boot-order-title">Boot Order:</div>
+          <div class="boot-order-item">1. SATA: ST3500418AS</div>
+          <div class="boot-order-item">2. USB: Not Detected</div>
+          <div class="boot-order-item">3. CD/DVD: Not Detected</div>
+        </div>
+
+      </div>
+
+      <div class="bottom-bar summary-bottom">
+        <span>Press F1 to Run SETUP</span>
+        <span>Press F2 to Load Default Values and Continue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4: Bootloader hand-off / black out -->
+  <div id="phase-handoff" class="phase"></div>
+
+  <script src="bios.js"></script>
 </body>
 </html>
