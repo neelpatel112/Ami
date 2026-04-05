@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMI BIOS Boot Emulator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using a monospaced font for that BIOS look -->
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+    <div id="bios-screen" class="bios-container">
+        <div class="logo-section">
+            <div class="ami-logo">
+                <span class="triangle">▲</span>
+                <span class="logo-text">American<br>Megatrends</span>
+            </div>
+            <div class="copyright">
+                AMIBIOS (C) 2012 American Megatrends, Inc.
+            </div>
+        </div>
+
+        <div id="boot-text" class="boot-log">
+            <!-- Content populated by TypeScript/JS -->
+        </div>
+
+        <div class="footer">
+            Press <b>DEL</b> to run Setup, <b>F12</b> for BBS POPUP <br>
+            Press <b>F1</b> to Run SETUP
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
